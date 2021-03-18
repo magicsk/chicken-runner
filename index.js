@@ -12,6 +12,8 @@ let highscoreText;
 let gameSpeed;
 let obstacles = [];
 
+let i = 0;
+
 
 
 document.addEventListener('keydown', event => keys[event.code] = true);
@@ -25,7 +27,8 @@ class Player {
         this.height = height;
 
         this.t = t;
-        this.type = ['./assets/chickenYellowStanding.png'];
+        this.typeS = ['./assets/chickenYellowStanding.png'];
+        this.typeR = ['./assets/chickenYellowRunning.png'];
 
         this.lives = lives;
         this.velocity = 0;
@@ -77,8 +80,11 @@ class Player {
 
     draw() {
         ctx.beginPath();
+        i++;
+        i > 30 ? i = 0 : i;
+        this.jumpTimer > 0 ? i = 20 : i;
         let image = new Image(64, 64);
-        image.src = this.type[this.t];    
+        this.type = i < 15 ? image.src = this.typeS[this.t] : image.src = this.typeR[this.t];
         ctx.drawImage(image,this.x, this.y, this.width, this.height);
         ctx.closePath();
     }
@@ -170,7 +176,7 @@ let spawnTimer = initialSpawnTimer;
 function render() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight / 2;
-    
+
     requestAnimationFrame(render);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
