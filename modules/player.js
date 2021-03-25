@@ -61,6 +61,6 @@ export default class Player {
 
     draw() {
         let f = Math.floor(this.gameSpeed*20)%2;
-        this.context.drawImage(this.texture[this.jumpTimer > 0 ? 1 : f], this.x, this.y, this.width, this.height);
+        this.context.drawImage(this.texture[this.grounded ? f : 1], this.x, this.y, this.width, this.height);
     }
 }
