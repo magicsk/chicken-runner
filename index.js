@@ -33,38 +33,40 @@ document.addEventListener('keyup', event => keys[event.code] = false);
 function init(difficulty) {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
+    
     gameSpeed = 7;
     gravity = 1;
     score = 0;
     highscore = 0;
-
+    
     player = new Player(150, canvas.height - 64, 50, 50, chickenYellow, 3, keys, gravity, canvas, context, gameSpeed);
     scoreText = new Text(score, 25, 45, 'left', '#212121', '48', context);
     musicButton = new Text('Music', canvas.width - 100, 45, 'center', '#212121', '48', context);
-
+    
     music = new Audio('./assets/music.wav');
     music.play();
-
+    
     for (let i = 0; i <= 4; i++) {
         let img = `./assets/fox/${i}.gif`;
         let new_img = new Image();
         new_img.src = img;
         new_img.onload = () => fox.push(new_img);
     }
-
+    
     for (let i = 1; i <= 2; i++) {
         let img = `./assets/chicken/chickenYellow${i}.png`;
         let new_img = new Image();
         new_img.src = img;
         new_img.onload = () => chickenYellow.push(new_img);
     }
-
+    
     background_image.src = './assets/background.png';
-
+    
     background_image.onload = () => {
+        let scale = Math.min(canvas.width / background_image.width, canvas.height / background_image.height);
         spawnBackground(0);
-        for (let i = 0; i < Math.floor(canvas.width / background_image.width); i++) {
+        // console.log(canvas.width + ' ' + background_image.width*scale + ' ' + scale);
+        for (let i = 0; i <= Math.floor(canvas.width / (background_image.width*scale)); i++) {
             spawnBackground(backgrounds[backgrounds.length - 1].x + backgrounds[0].width - 5);
         }
 
