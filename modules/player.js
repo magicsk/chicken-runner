@@ -20,7 +20,7 @@ export default class Player {
     }
     update() {
         // Jump
-        if (this.keys['Space'] || this.keys['KeyW'] || this.keys['ArrowUp']) {
+        if (this.keys['Space'] || this.keys['KeyW'] || this.keys['ArrowUp'] || this.keys['touch']) {
             this.jump();
         } else {
             this.jumpTimer = 0;
@@ -53,6 +53,8 @@ export default class Player {
         if (this.grounded && this.jumpTimer == 0) {
             this.jumpTimer = 1;
             this.velocity = -this.jumpForce;
+            let jumpSound = new Audio('./assets/jump.wav');
+            jumpSound.play();
         } else if (this.jumpTimer > 0 && this.jumpTimer < 15) {
             this.jumpTimer++;
             this.velocity = -this.jumpForce - (this.jumpTimer / 50);

@@ -3,7 +3,7 @@ export default class Background {
         this.x = x;
         this.y = 0;
         this.texture = texture;
-        this.scale = Math.min(canvas.width / texture.width, canvas.height / texture.height);
+        this.scale = canvas.height / texture.height;
         this.width = this.texture.width * this.scale;
         this.height = this.texture.height * this.scale;
         this.gameSpeed = gameSpeed;

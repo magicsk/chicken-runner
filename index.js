@@ -28,7 +28,11 @@ let background_image = new Image();
 document.addEventListener('keydown', event => keys[event.code] = true);
 document.addEventListener('keyup', event => keys[event.code] = false);
 
+document.addEventListener('touchstart', () => keys['touch'] = true);
+document.addEventListener('touchend', () => keys['touch'] = false);
 
+
+// only one scale
 // eslint-disable-next-line no-unused-vars
 function init(difficulty) {
     canvas.width = window.innerWidth;
@@ -44,7 +48,9 @@ function init(difficulty) {
     musicButton = new Text('Music', canvas.width - 100, 45, 'center', '#212121', '48', context);
     
     music = new Audio('./assets/music.wav');
-    music.play();
+    // music.play();
+    music.volume = 0.1;
+    music.pause();
     
     for (let i = 0; i <= 4; i++) {
         let img = `./assets/fox/${i}.gif`;
@@ -63,7 +69,7 @@ function init(difficulty) {
     background_image.src = './assets/background.png';
     
     background_image.onload = () => {
-        let scale = Math.min(canvas.width / background_image.width, canvas.height / background_image.height);
+        let scale = canvas.height / background_image.height;
         spawnBackground(0);
         // console.log(canvas.width + ' ' + background_image.width*scale + ' ' + scale);
         for (let i = 0; i <= Math.floor(canvas.width / (background_image.width*scale)); i++) {
@@ -88,7 +94,7 @@ canvas.addEventListener('click', (e) => {
     let clickedX = e.pageX;
     let clickedY = e.pageY;
     // console.log(`${clickedX} ${clickedY}`);
-    if (1810 < clickedX && clickedX < 1942 && 20 < clickedY && clickedY < 50){
+    if (canvas.width - 150 < clickedX && clickedX < canvas.width - 50 && 20 < clickedY && clickedY < 50){
         musicToggle = !musicToggle;
         musicToggle ? music.play() : music.pause();
     }
@@ -102,9 +108,9 @@ function render() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    let scale = Math.min(canvas.width / background_image.width, canvas.height / background_image.height);
+    let scale = canvas.height / background_image.height;
     context.clearRect(0, 0, canvas.width, canvas.height);
-
+    // console.log(keys['touch']);
     for (let i = 0; i < backgrounds.length; i++) {
         let b = backgrounds[i];
         b.gameSpeed = gameSpeed;
