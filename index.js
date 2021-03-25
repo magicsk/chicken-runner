@@ -1,7 +1,10 @@
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
+import Player from './modules/player.js';
+import Obstacle from './modules/obstacle.js';
+import Text from './modules/text.js';
+import Background from './modules/background.js';
 
-const keys = {};
+const canvas = document.querySelector('canvas');
+const context = canvas.getContext('2d');
 
 let player;
 let gravity;
@@ -10,199 +13,104 @@ let scoreText;
 let highscore;
 let highscoreText;
 let gameSpeed;
+
+const keys = {};
+
 let obstacles = [];
-
-let i = 0;
-
-
+let backgrounds = [];
+let fox = [];
+let chickenYellow = [];
+let background_image = new Image();
 
 document.addEventListener('keydown', event => keys[event.code] = true);
 document.addEventListener('keyup', event => keys[event.code] = false);
 
-class Player {
-    constructor(x, y, width, height, t, lives) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-
-        this.t = t;
-        this.typeS = ['./assets/chickenYellowStanding.png'];
-        this.typeR = ['./assets/chickenYellowRunning.png'];
-
-        this.lives = lives;
-        this.velocity = 0;
-        this.jumpForce = 15;
-        this.originalHeight = height;
-        this.grounded = false;
-        this.jumpTimer = 0;
-    }
-    update() {
-        // Jump
-        if (keys['Space'] || keys['KeyW'] || keys['ArrowUp']) {
-            this.jump();
-        } else {
-            this.jumpTimer = 0;
-        }
-
-        // Sneak
-        if (keys['ShiftLeft'] || keys['KeyS'] || keys['ArrowDown']) {
-            this.height = this.originalHeight / 2;
-        } else {
-            this.height = this.originalHeight;
-        }
-
-
-        // Gravity
-        this.y += this.velocity;
-
-        if (this.y + this.height < canvas.height) {
-            this.velocity += gravity;
-            this.grounded = false;
-        } else {
-            this.velocity = 0;
-            this.grounded = true;
-            this.y = canvas.height - this.height;
-        }
-
-        this.draw();
-    }
-
-    jump() {
-        if (this.grounded && this.jumpTimer == 0) {
-            this.jumpTimer = 1;
-            this.velocity = -this.jumpForce;
-        } else if (this.jumpTimer > 0 && this.jumpTimer < 15) {
-            this.jumpTimer++;
-            this.velocity = -this.jumpForce - (this.jumpTimer / 50);
-        }
-    }
-
-    draw() {
-        ctx.beginPath();
-        i++;
-        i > 30 ? i = 0 : i;
-        this.jumpTimer > 0 ? i = 20 : i;
-        let image = new Image(64, 64);
-        this.type = i < 15 ? image.src = this.typeS[this.t] : image.src = this.typeR[this.t];
-        ctx.drawImage(image,this.x, this.y, this.width, this.height);
-        ctx.closePath();
-    }
-}
-
-class Obstacle {
-    constructor(x, y, width, height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-
-        this.dx = -gameSpeed;
-    }
-
-    update() {
-        this.x += this.dx;
-        this.draw();
-        this.dx = -gameSpeed;
-    }
-
-    draw() {
-        // change to texture
-        ctx.beginPath();
-        ctx.fillStyle = '#2484E4';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.closePath();
-    }
-}
-
-class Text {
-    constructor(text, x, y, textAlign, color, size) {
-        this.text = text;
-        this.x = x;
-        this.y = y;
-        this.textAlign = textAlign;
-        this.color = color;
-        this.size = size;
-    }
-
-    draw() {
-        ctx.beginPath();
-        ctx.fillStyle = this.color;
-        ctx.font = this.size + 'px monogram';
-        ctx.textAlign = this.textAlign;
-        ctx.fillText(this.text, this.x, this.y);
-        ctx.closePath();
-    }
-}
-
-function spawnObstacle() {
-    // change to predefined blocks
-    let size = random(20, 70);
-    let type = random(0, 1);
-    let obstacle = new Obstacle(canvas.width + size, canvas.height - size, size, size);
-
-    if (type == 1) {
-        obstacle.y -= player.originalHeight - 10;
-    }
-    obstacles.push(obstacle);
-}
-
-
-function random(min, max) {
-    return Math.round(Math.random() * (max - min) + min);
-}
 
 // eslint-disable-next-line no-unused-vars
 function init(difficulty) {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight / 2;
-
+    canvas.height = window.innerHeight;
+    
     gameSpeed = 3;
     gravity = 1;
     score = 0;
     highscore = 0;
-
-    player = new Player(150, 0, 50, 50, 0, 3);
-
-    scoreText = new Text(score, 25, 45, 'left', '#212121', '48');
-
-    requestAnimationFrame(render);
+    
+    player = new Player(150, canvas.height-64, 50, 50, chickenYellow, 3, keys, gravity, canvas, context, gameSpeed);
+    scoreText = new Text(score, 25, 45, 'left', '#212121', '48', context);
+    
+    
+    for (let i = 0; i <= 4; i++) {
+        let img = `./assets/fox/${i}.gif`;
+        let new_img = new Image();
+        new_img.src = img;
+        new_img.onload = () => fox.push(new_img);
+    }
+    
+    for (let i = 1; i <= 2; i++) {
+        let img = `./assets/chicken/chickenYellow${i}.png`;
+        let new_img = new Image();
+        new_img.src = img;
+        new_img.onload = () => chickenYellow.push(new_img);
+    }
+    
+    background_image.src = './assets/background.png';
+    
+    background_image.onload = () => {
+        spawnBackground(0);
+        for (let i = 0; i < Math.floor(canvas.width / background_image.width) ; i++) {  
+            spawnBackground(backgrounds[backgrounds.length - 1].x + backgrounds[0].width - 5);
+        }
+        
+        requestAnimationFrame(render);
+    };
 }
 
+function spawnObstacle() {
+    let obstacle = new Obstacle(canvas.width + 67, canvas.height/1.085 - fox[0].height, 100, 64, fox, gameSpeed, canvas, context);
+    obstacles.push(obstacle);
+}
+
+function spawnBackground(x) {
+    let background = new Background(x, background_image, 3, canvas, context);
+    backgrounds.push(background);
+}
 
 let initialSpawnTimer = 200;
 let spawnTimer = initialSpawnTimer;
 
+
 function render() {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight / 2;
-
-    requestAnimationFrame(render);
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.height = window.innerHeight;
     
-    // Ground
-    // ctx.beginPath();
-    // let image = new Image(38, 16);
-    // image.src = './assets/ground.png';    
-    // ctx.drawImage(image, 0, canvas.height - 16, 38, 16 ); 
-    // ctx.drawImage(image, 38, canvas.height - 16, 38, 16 ); 
-    // ctx.closePath();
+    let scale = Math.min(canvas.width / background_image.width, canvas.height / background_image.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < backgrounds.length; i++) {
+        let b = backgrounds[i];
+        b.gameSpeed = gameSpeed;
+        b.scale = scale;
+        if (b.x + b.width < 0) {
+            b.x = i-1 < 0 ? backgrounds[backgrounds.length - 1].x + b.width - 5 : backgrounds[i-1].x + b.width - 5;
+        }
+        b.update();
+    }
 
     spawnTimer--;
     if (spawnTimer <= 0) {
         spawnObstacle();
         spawnTimer = initialSpawnTimer - gameSpeed * 8;
-
+        
         if (spawnTimer < 60) {
             spawnTimer = 60;
         }
     }
-
+    
     // Spawn Enemies
     for (let i = 0; i < obstacles.length; i++) {
         let o = obstacles[i];
-
+        o.gameSpeed = gameSpeed;
         if (o.x + o.width < 0) {
             obstacles.splice(i, 1);
         }
@@ -222,6 +130,7 @@ function render() {
 
         o.update();
     }
+    player.gameSpeed = gameSpeed;
     player.update();
 
     score++;
@@ -230,12 +139,13 @@ function render() {
 
     if (score > highscore) {
         highscore = score;
-        highscoreText = new Text('HI: ' + highscore, score.toString().length * 35 + 150, 45, 'right', '#212121', '48');
+        highscoreText = new Text('HI: ' + highscore, score.toString().length * 35 + 150, 45, 'right', '#212121', '48', context);
     }
 
     highscoreText.draw();
 
     gameSpeed += 0.003;
+    requestAnimationFrame(render);
 }
 
 init();

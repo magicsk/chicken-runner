@@ -105,3 +105,6 @@ temp/
 
 # VS code
 .vscode/
+
+# not used
+assets/not_used
