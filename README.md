@@ -2,7 +2,7 @@
 
 Simple js game made made using canvas and vanilla JS.
 
-Try now: <https://magicsk.github.io/chicken-runner/>
+Try now: <https://magicsk.github.io/lost-henn/>
 
 ## To do
 
