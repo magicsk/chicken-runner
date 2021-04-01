@@ -7,7 +7,7 @@ Try now: <https://magicsk.github.io/lost-henn/>
 ## To do
 
 - [x] Basic functionality
-- [ ] Rolling background
+- [x] Rolling background
 - [ ] Game menu
 - [ ] Controls
 - [x] Mobile device support

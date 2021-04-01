@@ -13,12 +13,14 @@ let gravity;
 let music;
 let musicToggle = true;
 let musicButton;
+let retryButton;
 let score;
 let scoreText;
 let highscore;
 let highscoreText;
 let gameSpeed;
 let scale;
+let death;
 
 let keys = {};
 let background_image = new Image();
@@ -45,6 +47,19 @@ canvas.addEventListener('click', (e) => {
     }
 });
 
+CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    if (w < 2 * r) r = w / 2;
+    if (h < 2 * r) r = h / 2;
+    this.beginPath();
+    this.moveTo(x + r, y);
+    this.arcTo(x + w, y, x + w, y + h, r);
+    this.arcTo(x + w, y + h, x, y + h, r);
+    this.arcTo(x, y + h, x, y, r);
+    this.arcTo(x, y, x + w, y, r);
+    this.closePath();
+    return this;
+};
+
 function spawnObstacle() {
     let obstacle = new Obstacle(canvas.width + 67, canvas.height / 1.085 - fox[0].height, 100, 64, fox, gameSpeed, canvas, context);
     obstacles.push(obstacle);
@@ -62,13 +77,16 @@ function init() {
     gameSpeed = 7;
     gravity = 1;
     score = 0;
-    highscore = 0;
+    highscore = parseInt(window.localStorage.getItem('highscore')) ?? 0;
     initialSpawnTimer = 200;
     spawnTimer = initialSpawnTimer;
+    death = false;
 
     player = new Player(150, canvas.height - 64, 50, 50, chickenYellow, 3, keys, gravity, canvas, context, gameSpeed);
     scoreText = new Text(score, 25, 45, 'left', '#212121', '48', context);
     musicButton = new Text('Music', canvas.width - 100, 45, 'center', '#212121', '48', context);
+
+    retryButton = new Text('Retry', canvas.width / 2, canvas.height / 2, 'left', '#cdcdcd', 48, context, 'rgba(43, 46, 48, 0.75)');
 
     music = new Audio('./assets/music.wav');
     // music.play();
@@ -101,6 +119,35 @@ function init() {
 
         requestAnimationFrame(render);
     };
+}
+
+function retry() {
+    retryButton.draw();
+    let key = document.addEventListener('keydown', e => {
+        if (e.code == 'Space' || e.code == 'KeyW' || e.code == 'ArrowUp' || e.code == 'touch') {
+            again();
+        }
+    });
+    let click = canvas.addEventListener('click', e => {
+        let clickedX = e.pageX;
+        let clickedY = e.pageY;
+        // console.log(`${clickedX} ${clickedY}`);
+        if (canvas.width / 2.07 < clickedX && clickedX < canvas.width / 1.79 && canvas.height / 2.15 < clickedY && clickedY < canvas.height / 1.90) {
+            again();
+        }
+    });
+    function again() {
+        obstacles = [];
+        gameSpeed = 7;
+        gravity = 1;
+        score = 0;
+        initialSpawnTimer = 200;
+        spawnTimer = initialSpawnTimer;
+        death = false;
+        requestAnimationFrame(render);
+    }
+    canvas.removeEventListener('keydown', key);
+    canvas.removeEventListener('click', click);
 }
 
 function render() {
@@ -141,11 +188,14 @@ function render() {
             player.y < o.y + o.height &&
             player.y + player.height > o.y
         ) {
-            obstacles = [];
-            score = 0;
-            spawnTimer = initialSpawnTimer;
-            gameSpeed = 3;
+            // obstacles = [];
+            // score = 0;
+            // spawnTimer = initialSpawnTimer;
+            // gameSpeed = 3;
             window.localStorage.setItem('highscore', highscore);
+            death = true;
+            // init();
+            // break;
         }
 
         o.update();
@@ -161,10 +211,8 @@ function render() {
     scoreText.draw();
 
     // Highscore update
-    if (score > highscore) {
-        highscore = score;
-        highscoreText = new Text('HI: ' + highscore, score.toString().length * 35 + 150, 45, 'right', '#212121', '48', context);
-    }
+    if (score > highscore) highscore = score;
+    highscoreText = new Text('HI: ' + highscore, (score.toString().length * 10) + 75, 45, 'left', '#212121', '48', context);
     highscoreText.draw();
 
     // Music button
@@ -172,7 +220,7 @@ function render() {
     musicButton.draw();
 
     gameSpeed += 0.003;
-    requestAnimationFrame(render);
+    death ? retry() : requestAnimationFrame(render);
 }
 
 init();

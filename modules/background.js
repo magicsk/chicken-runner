@@ -1,5 +1,5 @@
 export default class Background {
-    constructor( x, texture, gameSpeed, scale, canvas, context) {
+    constructor(x, texture, gameSpeed, scale, canvas, context) {
         this.x = x;
         this.y = 0;
         this.texture = texture;

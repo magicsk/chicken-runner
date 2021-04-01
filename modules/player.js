@@ -18,8 +18,7 @@ export default class Player {
         this.grounded = false;
         this.jumpTimer = 0;
     }
-    update() {
-        // Jump
+    update() { // Jump
         if (this.keys['Space'] || this.keys['KeyW'] || this.keys['ArrowUp'] || this.keys['touch']) {
             this.jump();
         } else {
@@ -37,7 +36,7 @@ export default class Player {
         // Gravity
         this.y += this.velocity;
 
-        if (this.y + this.height < this.canvas.height/1.085) {
+        if (this.y + this.height<this.canvas.height/1.085) {
             this.velocity += this.gravity;
             this.grounded = false;
         } else {
@@ -55,14 +54,14 @@ export default class Player {
             this.velocity = -this.jumpForce;
             let jumpSound = new Audio('./assets/jump.wav');
             jumpSound.play();
-        } else if (this.jumpTimer > 0 && this.jumpTimer < 15) {
-            this.jumpTimer++;
-            this.velocity = -this.jumpForce - (this.jumpTimer / 50);
+        } else if (this.jumpTimer> 0 && this.jumpTimer < 15) {
+            this.jumpTimer ++;
+            this.velocity = -this.jumpForce -(this.jumpTimer / 50);
         }
     }
 
     draw() {
-        let f = Math.floor(this.gameSpeed*20)%2;
+        let f = Math.floor(this.gameSpeed * 20) % 2;
         this.context.drawImage(this.texture[this.grounded ? f : 1], this.x, this.y, this.width, this.height);
     }
 }
