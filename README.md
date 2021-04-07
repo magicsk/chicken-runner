@@ -8,13 +8,13 @@ Try now: <https://magicsk.github.io/lost-henn/>
 
 - [x] Basic functionality
 - [x] Rolling background
-- [ ] Game menu
-- [ ] Controls
+- [x] Game menu
+- [x] Controls
 - [x] Mobile device support
   - [ ] crouch gesture
   - [ ] Fix extreme jump
   - [ ] Shrink sky in landscape
-- [ ] Pause on death
+- [x] Pause on death
 - [x] Hen - player
   - [x] Animations
   - [ ] More variants
@@ -29,7 +29,7 @@ Try now: <https://magicsk.github.io/lost-henn/>
   - [x] Music
   - [x] Jump
   - [ ] Death
-  - [ ] Mute sounds
+  - [x] Mute sounds
 - [ ] Collectibles
   - [ ] Lives (eggs)
   - [ ] Trap collectibles (only higher difficulty)
