@@ -1,16 +1,19 @@
+import loadAssets from './assets.js';
+
 export default class Player {
-    constructor(x, y, width, height, texture, lives, keys = [], gravity, canvas, context, gameSpeed) {
+    constructor (x, y, width, height, type, lives, gravity, canvas, context, gameSpeed, audio) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.texture = texture;
-        this.keys = keys;
+        this.texture = loadAssets(type);
         this.gravity = gravity;
         this.gameSpeed = gameSpeed;
         this.canvas = canvas;
         this.context = context;
+        this.audio = audio;
 
+        this.jumpSound = new Audio('./assets/jump.wav');
         this.lives = lives;
         this.velocity = 0;
         this.jumpForce = 15;
@@ -18,15 +21,15 @@ export default class Player {
         this.grounded = false;
         this.jumpTimer = 0;
     }
-    update() { // Jump
-        if (this.keys['Space'] || this.keys['KeyW'] || this.keys['ArrowUp'] || this.keys['touch']) {
+    update(keys) {  // Jump
+        if (keys['Space'] || keys['KeyW'] || keys['ArrowUp'] || keys['touch']) {
             this.jump();
         } else {
             this.jumpTimer = 0;
         }
 
         // Sneak
-        if (this.keys['ShiftLeft'] || this.keys['KeyS'] || this.keys['ArrowDown']) {
+        if (keys['ShiftLeft'] || keys['KeyS'] || keys['ArrowDown']) {
             this.height = this.originalHeight / 2;
         } else {
             this.height = this.originalHeight;
@@ -36,13 +39,13 @@ export default class Player {
         // Gravity
         this.y += this.velocity;
 
-        if (this.y + this.height<this.canvas.height/1.085) {
+        if (this.y + this.height < this.canvas.height / 1.085) {
             this.velocity += this.gravity;
             this.grounded = false;
         } else {
             this.velocity = 0;
             this.grounded = true;
-            this.y = this.canvas.height/1.085 - this.height;
+            this.y = this.canvas.height / 1.085 - this.height;
         }
 
         this.draw();
@@ -52,11 +55,10 @@ export default class Player {
         if (this.grounded && this.jumpTimer == 0) {
             this.jumpTimer = 1;
             this.velocity = -this.jumpForce;
-            let jumpSound = new Audio('./assets/jump.wav');
-            jumpSound.play();
-        } else if (this.jumpTimer> 0 && this.jumpTimer < 15) {
-            this.jumpTimer ++;
-            this.velocity = -this.jumpForce -(this.jumpTimer / 50);
+            this.audio ? this.jumpSound.play() : undefined;
+        } else if (this.jumpTimer > 0 && this.jumpTimer < 15) {
+            this.jumpTimer++;
+            this.velocity = -this.jumpForce - (this.jumpTimer / 50);
         }
     }
 
