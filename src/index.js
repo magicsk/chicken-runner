@@ -9,4 +9,7 @@ function run() {
     requestAnimationFrame(run);
 }
 
-new FontFace('monogram', 'url(assets/monogram.ttf)').load().then(() => run());
+new FontFace('monogram', 'url(assets/monogram.ttf)').load().then(font => {
+    document.fonts.add(font);
+    run();
+});
