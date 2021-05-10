@@ -30,6 +30,7 @@ export default class Model {
         this.pickupSound = new Audio('./assets/sounds/pickup.wav');
         this.scoreSound = new Audio('./assets/sounds/respawn.wav');
         this.music.play();
+        this.music.volume = 0.5;
         this.audio = true;
 
         this.obstacles = [];
@@ -87,7 +88,7 @@ export default class Model {
 
     spawnObstacle() {
         let obstacle;
-        let type = this.score > 1000 ? this.random(1, this.score < 3000 ? 3 : 2) : 3;
+        let type = this.score > 1000 ? this.random(1, this.score < 3000 ? 3 : 2) : 1;
         switch (type) {
             case 1:
                 obstacle = new Obstacle(this.canvas.width + 128, this.canvas.height / 1.085 - 64, 30, this.gameSpeed, this.canvas, this.context);
