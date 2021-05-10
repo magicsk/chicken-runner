@@ -17,9 +17,9 @@ export default class Controller {
         this.model.canvas.addEventListener('click', e => {
             let clickedX = e.pageX;
             let clickedY = e.pageY;
-            if (this.model.canvas.width - 150 < clickedX && clickedX < this.model.canvas.width - 50 && 20 < clickedY && clickedY < 50) {
+            if (this.model.canvas.width - 110 < clickedX && clickedX < this.model.canvas.width - 50 && 50 < clickedY && clickedY < 85) {
                 this.model.toggleMusic();
-            } else if (this.model.canvas.width - 350 < clickedX && clickedX < this.model.canvas.width - 150 && 20 < clickedY && clickedY < 50) {
+            } else if (this.model.canvas.width - 205 < clickedX && clickedX < this.model.canvas.width - 140 && 30 < clickedY && clickedY < 85) {
                 this.model.toggleAudio();
             }
         });

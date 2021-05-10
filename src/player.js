@@ -1,7 +1,7 @@
 import loadAssets from './assets.js';
 
 export default class Player {
-    constructor (x, y, width, height, type, lives, gravity, canvas, context, gameSpeed, audio) {
+    constructor (x, y, width, height, type, gravity, canvas, context, gameSpeed, audio) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -12,27 +12,31 @@ export default class Player {
         this.canvas = canvas;
         this.context = context;
         this.audio = audio;
+        this.respawning = false;
 
         this.jumpSound = new Audio('./assets/jump.wav');
-        this.lives = lives;
+        this.respawnSound = new Audio('./assets/respawn.wav');
         this.velocity = 0;
         this.jumpForce = 15;
         this.originalHeight = height;
         this.grounded = false;
         this.jumpTimer = 0;
     }
-    update(keys) {  // Jump
-        if (keys['Space'] || keys['KeyW'] || keys['ArrowUp'] || keys['touch']) {
-            this.jump();
-        } else {
-            this.jumpTimer = 0;
-        }
-
-        // Sneak
-        if (keys['ShiftLeft'] || keys['KeyS'] || keys['ArrowDown']) {
-            this.height = this.originalHeight / 2;
-        } else {
-            this.height = this.originalHeight;
+    update(keys) {
+        if (!this.respawning) {
+            // Jump
+            if (keys['Space'] || keys['KeyW'] || keys['ArrowUp'] || keys['touch']) {
+                this.jump();
+            } else {
+                this.jumpTimer = 0;
+            }
+    
+            // Sneak
+            if (keys['ShiftLeft'] || keys['KeyS'] || keys['ArrowDown']) {
+                this.height = this.originalHeight / 2;
+            } else {
+                this.height = this.originalHeight;
+            }
         }
 
 
@@ -62,8 +66,21 @@ export default class Player {
         }
     }
 
+    respawn() {
+        this.grounded = false;
+        this.y = this.canvas.height / 2;
+        this.context.drawImage(this.texture[3], this.x, this.y, this.width, this.height);
+        this.respawning = true;
+        this.audio ? this.respawnSound.play() : undefined;
+    }
+
     draw() {
-        let f = Math.floor(this.gameSpeed * 20) % 2;
-        this.context.drawImage(this.texture[this.grounded ? f : 1], this.x, this.y, this.width, this.height);
+        if (this.respawning) {
+            this.context.drawImage(this.texture[this.y < this.canvas.height / 1.5 ? 2 : 3], this.x, this.y, this.width, this.height);
+            this.y == this.canvas.height / 1.085 - this.height ? this.respawning = false : undefined;
+        } else {
+            let f = Math.floor(this.gameSpeed * 20) % 2;
+            this.context.drawImage(this.texture[this.grounded ? f : 1], this.x, this.y, this.width, this.height);
+        }
     }
 }

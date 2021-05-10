@@ -6,7 +6,7 @@ export default class View {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
     }
-
+    
     render(model, keys) {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         model.background.update();
@@ -24,26 +24,43 @@ export default class View {
         model.highscoreText.text = `HI: ${model.highscore}`;
         model.highscoreText.x = (model.score.toString().length * 10) + 75;
         model.highscoreText.draw();
+        model.livesText.text = `Eggs: ${model.lives}`;
+        model.livesText.draw();
     
-        model.musicButton.text = model.music.paused ? 'Silence' : 'Music';
+        model.musicButton.text = model.music.paused ? '🙊' : '🎵';
         model.musicButton.draw();
         
-        model.audioButton.text = model.audio ? 'Audio' : 'Silence';
+        model.audioButton.text = model.audio ? '🔊' : '🔇';
         model.audioButton.draw();
     }
 
     retry(model, keys){
+        this.context.clearRect(this.canvas.width - 300, 0, this.canvas.width, 100);
+        
+        model.musicButton.text = model.music.paused ? '🙊' : '🎵';
+        model.musicButton.draw();
+        
+        model.audioButton.text = model.audio ? '🔊' : '🔇';
+        model.audioButton.draw(); 
+
         model.retryButton.draw();
         model.retry(keys);
     }
 
     menu(model, keys){
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        model.background.update();
         model.gameSpeed += 0.003;
+
+        model.background.update();
         model.move(keys);
 
+        model.musicButton.text = model.music.paused ? '🙊' : '🎵';
+        model.musicButton.draw();
         
+        model.audioButton.text = model.audio ? '🔊' : '🔇';
+        model.audioButton.draw();
+        
+        model.logoText.draw();
+
         model.startButton.draw();
         model.menu();
         model.instructions.draw();

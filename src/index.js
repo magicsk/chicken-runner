@@ -4,6 +4,11 @@ document.body.appendChild(document.createElement('canvas'));
 
 const app = new Controller();
 
+// eslint-disable-next-line no-useless-escape
+if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) || /MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
+    alert('For optimal performance please use chromium based browser.');
+}
+
 function run() {
     app.run();
     requestAnimationFrame(run);
@@ -11,5 +16,11 @@ function run() {
 
 new FontFace('monogram', 'url(assets/monogram.ttf)').load().then(font => {
     document.fonts.add(font);
-    run();
+    new FontFace('monocraft', 'url(assets/Minecrafter.Reg.ttf)').load().then(font => {
+        document.fonts.add(font);
+        new FontFace('emoji', 'url(assets/TwemojiMozilla.ttf)').load().then(font => {
+            document.fonts.add(font);
+            run();
+        });
+    });
 });
