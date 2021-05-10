@@ -14,8 +14,8 @@ export default class Player {
         this.audio = audio;
         this.respawning = false;
 
-        this.jumpSound = new Audio('./assets/jump.wav');
-        this.respawnSound = new Audio('./assets/respawn.wav');
+        this.jumpSound = new Audio('./assets/sounds/jump.wav');
+        this.respawnSound = new Audio('./assets/sounds/respawn.wav');
         this.velocity = 0;
         this.jumpForce = 15;
         this.originalHeight = height;

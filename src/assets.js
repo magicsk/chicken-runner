@@ -1,57 +1,57 @@
 export default function loadAssets(asset) {
-    let background = ['./assets/background.png'];
+    let background = ['./assets/images/background.png'];
     let chickenBlue = [
-        './assets/chicken/chickenBlue1.png',
-        './assets/chicken/chickenBlue2.png',
-        './assets/chicken/chickenBlue3.png',
-        './assets/chicken/chickenBlue4.png'
+        './assets/images/chicken/chickenBlue1.png',
+        './assets/images/chicken/chickenBlue2.png',
+        './assets/images/chicken/chickenBlue3.png',
+        './assets/images/chicken/chickenBlue4.png'
     ];
     let chickenBrown = [
-        './assets/chicken/chickenBrown1.png',
-        './assets/chicken/chickenBrown2.png',
-        './assets/chicken/chickenBrown3.png',
-        './assets/chicken/chickenBrown4.png'
+        './assets/images/chicken/chickenBrown1.png',
+        './assets/images/chicken/chickenBrown2.png',
+        './assets/images/chicken/chickenBrown3.png',
+        './assets/images/chicken/chickenBrown4.png'
     ];
     let chickenLBrown = [
-        './assets/chicken/chickenLBrown1.png',
-        './assets/chicken/chickenLBrown2.png',
-        './assets/chicken/chickenLBrown3.png',
-        './assets/chicken/chickenLBrown4.png'
+        './assets/images/chicken/chickenLBrown1.png',
+        './assets/images/chicken/chickenLBrown2.png',
+        './assets/images/chicken/chickenLBrown3.png',
+        './assets/images/chicken/chickenLBrown4.png'
     ];
     let chickenWhite = [
-        './assets/chicken/chickenWhite1.png',
-        './assets/chicken/chickenWhite2.png',
-        './assets/chicken/chickenWhite3.png',
-        './assets/chicken/chickenWhite4.png'
+        './assets/images/chicken/chickenWhite1.png',
+        './assets/images/chicken/chickenWhite2.png',
+        './assets/images/chicken/chickenWhite3.png',
+        './assets/images/chicken/chickenWhite4.png'
     ];
     let chickenYellow = [
-        './assets/chicken/chickenYellow1.png',
-        './assets/chicken/chickenYellow2.png',
-        './assets/chicken/chickenYellow3.png',
-        './assets/chicken/chickenYellow4.png'
+        './assets/images/chicken/chickenYellow1.png',
+        './assets/images/chicken/chickenYellow2.png',
+        './assets/images/chicken/chickenYellow3.png',
+        './assets/images/chicken/chickenYellow4.png'
     ];
     let foxTexture = [
-        './assets/fox/0.gif',
-        './assets/fox/1.gif',
-        './assets/fox/2.gif',
-        './assets/fox/3.gif',
-        './assets/fox/4.gif'
+        './assets/images/fox/0.gif',
+        './assets/images/fox/1.gif',
+        './assets/images/fox/2.gif',
+        './assets/images/fox/3.gif',
+        './assets/images/fox/4.gif'
     ];
     let birdTexture = [
-        './assets/bird/0.gif',
-        './assets/bird/1.gif',
-        './assets/bird/2.gif',
-        './assets/bird/3.gif',
-        './assets/bird/4.gif'
+        './assets/images/bird/0.gif',
+        './assets/images/bird/1.gif',
+        './assets/images/bird/2.gif',
+        './assets/images/bird/3.gif',
+        './assets/images/bird/4.gif'
     ];
     let snakeTexture = [
-        './assets/snake/0.gif',
-        './assets/snake/1.gif',
-        './assets/snake/2.gif',
-        './assets/snake/3.gif',
-        './assets/snake/4.gif'
+        './assets/images/snake/0.gif',
+        './assets/images/snake/1.gif',
+        './assets/images/snake/2.gif',
+        './assets/images/snake/3.gif',
+        './assets/images/snake/4.gif'
     ];
-    let instructions = ['./assets/instructions.png'];
+    let instructions = ['./assets/images/instructions.png'];
 
     let arr = [];
 

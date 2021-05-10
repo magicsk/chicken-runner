@@ -25,10 +25,10 @@ export default class Model {
         this.start = false;
 
         this.background = new Background(this.gameSpeed, this.canvas, this.context);
-        this.music = new Audio('./assets/music.wav');
-        this.deathSound = new Audio('./assets/death.wav');
-        this.pickupSound = new Audio('./assets/pickup.wav');
-        this.scoreSound = new Audio('./assets/respawn.wav');
+        this.music = new Audio('./assets/sounds/music.wav');
+        this.deathSound = new Audio('./assets/sounds/death.wav');
+        this.pickupSound = new Audio('./assets/sounds/pickup.wav');
+        this.scoreSound = new Audio('./assets/sounds/respawn.wav');
         this.music.play();
         this.audio = true;
 

@@ -14,11 +14,11 @@ function run() {
     requestAnimationFrame(run);
 }
 
-new FontFace('monogram', 'url(assets/monogram.ttf)').load().then(font => {
+new FontFace('monogram', 'url(assets/fonts/monogram.ttf)').load().then(font => {
     document.fonts.add(font);
-    new FontFace('monocraft', 'url(assets/Minecrafter.Reg.ttf)').load().then(font => {
+    new FontFace('monocraft', 'url(assets/fonts/Minecrafter.Reg.ttf)').load().then(font => {
         document.fonts.add(font);
-        new FontFace('emoji', 'url(assets/TwemojiMozilla.ttf)').load().then(font => {
+        new FontFace('emoji', 'url(assets/fonts/TwemojiMozilla.ttf)').load().then(font => {
             document.fonts.add(font);
             run();
         });
