@@ -32,6 +32,7 @@ Try now: <https://magicsk.github.io/lost-henn/>
   - [x] Mute sounds
 - [x] Collectibles
   - [x] Lives (eggs)
+  - [ ] Lives represented as eggs in UI not as text
 
 ## KB1 - 6/10b
 
@@ -39,6 +40,6 @@ Try now: <https://magicsk.github.io/lost-henn/>
 
 ## KB3 - 7/7b
 
-## KB4 - ?/40b
+## KB4 - 39/40b
 
-## 14/20b
+## 53/60b
